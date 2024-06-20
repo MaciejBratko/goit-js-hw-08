@@ -16,14 +16,15 @@ body {
 .gallery {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 24px;
   list-style-type: none;
-  padding: 0;
+  padding: 0 156px;
   margin: 0;
 }
 
 .gallery li {
-  flex: 1 1 calc(33.333% - 20px);
+  flex: 1 1 calc(33.3333% - 48px);
+  max-width: calc(33.3333% - 24px);
 }
 
 .gallery img {
