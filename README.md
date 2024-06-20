@@ -1,1 +1,2 @@
-# goit-js-hw-01
+# goit-js-hw-08
+https://maciejbratko.github.io/goit-js-hw-08/
