@@ -16,50 +16,30 @@ const images = [
   // Pozostałe obiekty obrazów...
 ];
 
-// generowanie galerii
-const galleryItems = images
+const gallery = document.querySelector("ul.gallery");
+gallery.innerHTML = images
   .map(
-    ({ preview, original, description }) => `<li class="gallery-item">
-  <a class="gallery-link" href="${original}">
-    <img
-      class="gallery-image"
-      src="${preview}"
-      data-source="${original}"
-      alt="${description}"
-    />
-  </a>
-</li>
-`
+    ({ preview, original, description }) => `
+<li class="gallery-item">
+<a class="gallery-link" href="${original}">
+<img class="gallery-image" src="${preview}" data-source="${original}" alt="${description}" />
+</a>
+</li>`
   )
   .join("");
 
-const gallery = document.querySelector("ul.gallery");
-gallery.innerHTML = galleryItems;
-
-//blokowanie domyślnego zachowania kliknięcia w obrazek
-document.addEventListener("click", handleClick);
-
-function handleClick(event) {
+gallery.addEventListener("click", (event) => {
   event.preventDefault();
-}
-
-//dodawanie i usuwanie instancji lightboxa
-gallery.addEventListener("click", imageClick);
-let lightboxInstance;
-function imageClick(event) {
-  if (event.target && event.target.tagName === "IMG") {
-    const sourceImage = event.target.dataset.source;
-    console.log(sourceImage);
-    lightboxInstance = basicLightbox.create(`
-<img width="1400" height="900" src="${sourceImage}">
+  if (event.target.nodeName !== "IMG") return;
+  const lightboxInstance = basicLightbox.create(`
+<img width="1400" height="900" src="${event.target.dataset.source}">
 `);
-    lightboxInstance.show();
-    document.addEventListener("keydown", onKeyPress);
-  }
-}
-function onKeyPress(event) {
-  if (event.key === "Escape" || event.key === "Esc") {
-    lightboxInstance.close();
-    document.removeEventListener("keydown", onKeyPress);
-  }
-}
+  lightboxInstance.show();
+  const onKeyPress = (event) => {
+    if (event.key === "Escape") {
+      lightboxInstance.close();
+      document.removeEventListener("keydown", onKeyPress);
+    }
+  };
+  document.addEventListener("keydown", onKeyPress);
+});
